@@ -24,11 +24,13 @@ func (s *Store) CreateRepository(ctx context.Context, name, ownerUserID string, 
 }
 
 // ListReposVisible returns repositories visible to userID: owned, public, or
-// where the user is a member.
+// where the user is a member. Each repository's Owner is populated.
 func (s *Store) ListReposVisible(ctx context.Context, userID string) ([]*models.Repository, error) {
 	rows, err := s.db.QueryContext(ctx, `
-		SELECT DISTINCT r.id, r.name, r.owner_user_id, r.visibility, r.description, r.created_at, r.updated_at
+		SELECT DISTINCT r.id, r.name, r.owner_user_id, r.visibility, r.description, r.created_at, r.updated_at,
+			u.id, u.username, u.is_admin, u.created_at, u.updated_at
 		FROM repositories r
+		LEFT JOIN users u ON u.id = r.owner_user_id
 		WHERE r.owner_user_id = ?
 		   OR r.visibility = 'public'
 		   OR EXISTS (SELECT 1 FROM repository_members m WHERE m.repository_id = r.id AND m.user_id = ?)
@@ -40,8 +42,24 @@ func (s *Store) ListReposVisible(ctx context.Context, userID string) ([]*models.
 	var out []*models.Repository
 	for rows.Next() {
 		r := &models.Repository{}
-		if err := rows.Scan(&r.ID, &r.Name, &r.OwnerUserID, &r.Visibility, &r.Description, &r.CreatedAt, &r.UpdatedAt); err != nil {
+		var (
+			ownerID      sql.NullString
+			ownerUser    sql.NullString
+			ownerAdmin   sql.NullBool
+			ownerCreated sql.NullString
+			ownerUpdated sql.NullString
+		)
+		if err := rows.Scan(
+			&r.ID, &r.Name, &r.OwnerUserID, &r.Visibility, &r.Description, &r.CreatedAt, &r.UpdatedAt,
+			&ownerID, &ownerUser, &ownerAdmin, &ownerCreated, &ownerUpdated,
+		); err != nil {
 			return nil, err
+		}
+		if ownerID.Valid {
+			r.Owner = &models.User{
+				ID: ownerID.String, Username: ownerUser.String, IsAdmin: ownerAdmin.Bool,
+				CreatedAt: ownerCreated.String, UpdatedAt: ownerUpdated.String,
+			}
 		}
 		out = append(out, r)
 	}
@@ -79,30 +97,52 @@ func (s *Store) DeleteRepository(ctx context.Context, id string) error {
 	return nil
 }
 
-// GetRepositoryByName returns a repository by its unique name.
+// GetRepositoryByName returns a repository by its unique name, with Owner populated.
 func (s *Store) GetRepositoryByName(ctx context.Context, name string) (*models.Repository, error) {
 	row := s.db.QueryRowContext(ctx,
-		`SELECT id, name, owner_user_id, visibility, description, created_at, updated_at
-		 FROM repositories WHERE name = ?`, name)
+		`SELECT r.id, r.name, r.owner_user_id, r.visibility, r.description, r.created_at, r.updated_at,
+			u.id, u.username, u.is_admin, u.created_at, u.updated_at
+		 FROM repositories r
+		 LEFT JOIN users u ON u.id = r.owner_user_id
+		 WHERE r.name = ?`, name)
 	return scanRepo(row)
 }
 
-// GetRepositoryByID returns a repository by id.
+// GetRepositoryByID returns a repository by id, with Owner populated.
 func (s *Store) GetRepositoryByID(ctx context.Context, id string) (*models.Repository, error) {
 	row := s.db.QueryRowContext(ctx,
-		`SELECT id, name, owner_user_id, visibility, description, created_at, updated_at
-		 FROM repositories WHERE id = ?`, id)
+		`SELECT r.id, r.name, r.owner_user_id, r.visibility, r.description, r.created_at, r.updated_at,
+			u.id, u.username, u.is_admin, u.created_at, u.updated_at
+		 FROM repositories r
+		 LEFT JOIN users u ON u.id = r.owner_user_id
+		 WHERE r.id = ?`, id)
 	return scanRepo(row)
 }
 
 func scanRepo(row *sql.Row) (*models.Repository, error) {
 	r := &models.Repository{}
-	err := row.Scan(&r.ID, &r.Name, &r.OwnerUserID, &r.Visibility, &r.Description, &r.CreatedAt, &r.UpdatedAt)
+	var (
+		ownerID      sql.NullString
+		ownerUser    sql.NullString
+		ownerAdmin   sql.NullBool
+		ownerCreated sql.NullString
+		ownerUpdated sql.NullString
+	)
+	err := row.Scan(
+		&r.ID, &r.Name, &r.OwnerUserID, &r.Visibility, &r.Description, &r.CreatedAt, &r.UpdatedAt,
+		&ownerID, &ownerUser, &ownerAdmin, &ownerCreated, &ownerUpdated,
+	)
 	if isErrNoRows(err) {
 		return nil, ErrNotFound
 	}
 	if err != nil {
 		return nil, err
+	}
+	if ownerID.Valid {
+		r.Owner = &models.User{
+			ID: ownerID.String, Username: ownerUser.String, IsAdmin: ownerAdmin.Bool,
+			CreatedAt: ownerCreated.String, UpdatedAt: ownerUpdated.String,
+		}
 	}
 	return r, nil
 }
