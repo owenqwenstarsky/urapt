@@ -1,0 +1,24 @@
+# Build output
+/urapt
+/urapt-server
+/bin/
+/dist/
+
+# Runtime data
+/store/
+*.db
+*.db-wal
+*.db-shm
+
+# Test artifacts
+/hello/
+/hello.deb
+
+# Go
+vendor/
+
+# Editor / OS
+.DS_Store
+*.swp
+.idea/
+.vscode/

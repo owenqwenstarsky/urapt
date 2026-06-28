@@ -1,0 +1,23 @@
+# urapt-server configuration. Copy to urapt-server.toml and edit.
+# Any value here can be overridden by URAPT_* environment variables or CLI flags.
+
+bind              = "0.0.0.0:8080"
+base_url          = "https://apt.example.com"
+store_dir         = "./store"
+log_level         = "info"
+
+# Signing key generated on first start if none exists.
+signing_key_type   = "rsa"
+signing_key_bits   = 4096
+signing_key_user_id = "urapt-server <apt.example.com>"
+
+# Maximum .deb upload size (bytes).
+max_package_size  = 1073741824
+
+# Allow new users to self-register. The first registrant always becomes admin.
+open_registration = true
+
+# Optional built-in TLS (otherwise use a TLS-terminating reverse proxy).
+tls_enabled = false
+# tls_cert  = "/path/to/fullchain.pem"
+# tls_key   = "/path/to/privkey.pem"
