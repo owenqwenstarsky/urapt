@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-06-28
+
+### Added
+- **Web UI** (`urapt-web/`): a Vite + React 18 + TypeScript SPA for managing
+  urapt-server instances, with full management parity with the CLI. Same-origin
+  with the API (no CORS, no server changes required).
+  - First-run setup (admin bootstrap via `needs_setup`), login/logout.
+  - Repositories: list, create, tabbed detail — overview (edit/delete), members
+    CRUD, distributions/components/architectures manager, package list +
+    `.deb` multipart upload + detail + delete, and an apt-config panel that
+    generates the exact `apt` setup commands client-side.
+  - API tokens (show-once creation + revoke), admin users (toggle admin/delete),
+    settings, and dark mode.
+  - Stack: Tailwind + shadcn/ui (New York), React Router v7 (lazy routes),
+    TanStack Query v5, Zustand, Vitest. Hand-written typed API client mirroring
+    `shared/api` + `shared/models`. Deploy behind nginx/Caddy (see
+    `urapt-web/README.md`).
+
+### Fixed
+- `ListReposVisible`, `GetRepositoryByName`, and `GetRepositoryByID` now
+  populate `Repository.Owner` via a LEFT JOIN on `users`. Previously the owner
+  `User` was always `nil` in list/get responses, so consumers (the web UI's
+  repositories table) could not display the owner's username.
+
 ## [0.1.0] - 2026-06-28
 
 First public release. urapt is a self-hostable APT repository server with a
@@ -58,5 +82,6 @@ companion CLI for pushing and managing Debian `.deb` packages.
 - No rate limiting or brute-force protection on login endpoints.
 - No source packages (`.dsc`/`.orig.tar.*`) or AppStream metadata.
 
-[Unreleased]: https://github.com/owenqwenstarsky/urapt/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/owenqwenstarsky/urapt/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/owenqwenstarsky/urapt/releases/tag/v0.1.1
 [0.1.0]: https://github.com/owenqwenstarsky/urapt/releases/tag/v0.1.0
