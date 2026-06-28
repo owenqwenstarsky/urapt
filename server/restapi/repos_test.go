@@ -31,7 +31,7 @@ func TestRepoCreateAndPermissions(t *testing.T) {
 	}
 
 	// bob cannot see it (private, not a member)
-	code, body = h.do("GET", "/api/v1/repositories/myrepo", bob.Token, nil)
+	code, _ = h.do("GET", "/api/v1/repositories/myrepo", bob.Token, nil)
 	if code != 403 {
 		t.Fatalf("bob should be forbidden from private repo, got %d", code)
 	}

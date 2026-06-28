@@ -149,7 +149,7 @@ func TestPushPullDeletePackage(t *testing.T) {
 	}
 
 	// list
-	code, body = h.do("GET", "/api/v1/repositories/pkgrepo/distributions/stable/packages", owner.Token, nil)
+	code, _ = h.do("GET", "/api/v1/repositories/pkgrepo/distributions/stable/packages", owner.Token, nil)
 	if code != 200 {
 		t.Fatalf("list packages status %d", code)
 	}

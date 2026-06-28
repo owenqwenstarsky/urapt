@@ -34,7 +34,7 @@ func ReadLine(prompt string) (string, error) {
 func Confirm(prompt string) bool {
 	fmt.Fprintf(os.Stderr, "%s [y/N]: ", prompt)
 	var s string
-	fmt.Fscanln(os.Stdin, &s)
+	_, _ = fmt.Fscanln(os.Stdin, &s)
 	s = strings.ToLower(strings.TrimSpace(s))
 	return s == "y" || s == "yes"
 }

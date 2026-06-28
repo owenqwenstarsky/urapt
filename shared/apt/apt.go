@@ -115,11 +115,11 @@ func Generate(s *Suite, signer Signer) (*Indices, error) {
 	idx.Release = release
 
 	if signer != nil {
-		clear, err := signer.ClearSign(release)
+		clearsigned, err := signer.ClearSign(release)
 		if err != nil {
 			return nil, fmt.Errorf("clearsign: %w", err)
 		}
-		idx.InRelease = clear
+		idx.InRelease = clearsigned
 		det, err := signer.DetachedSign(release)
 		if err != nil {
 			return nil, fmt.Errorf("detach sign: %w", err)

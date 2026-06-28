@@ -15,7 +15,7 @@ func (r *Root) loginCmd() *cobra.Command {
 		Use:   "login [server]",
 		Short: "Log in to a urapt server and save an API token",
 		Args:  cobra.MaximumNArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			server := r.flagServer
 			if len(args) == 1 {
 				server = args[0]
@@ -65,7 +65,7 @@ func (r *Root) logoutCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "logout",
 		Short: "Revoke the current API token and clear the saved profile",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -86,7 +86,7 @@ func (r *Root) whoamiCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "whoami",
 		Short: "Show the currently authenticated user",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -111,7 +111,7 @@ func (r *Root) registerCmd() *cobra.Command {
 		Use:   "register [server]",
 		Short: "Create a new account on a urapt server (first account becomes admin)",
 		Args:  cobra.MaximumNArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			server := r.flagServer
 			if len(args) == 1 {
 				server = args[0]
@@ -175,7 +175,7 @@ func (r *Root) tokenCreateCmd() *cobra.Command {
 	c := &cobra.Command{
 		Use:   "create",
 		Short: "Create a new API token",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			client, err := r.client()
 			if err != nil {
 				return err
@@ -202,7 +202,7 @@ func (r *Root) tokenListCmd() *cobra.Command {
 	c := &cobra.Command{
 		Use:   "list",
 		Short: "List your API tokens",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			client, err := r.client()
 			if err != nil {
 				return err
@@ -238,7 +238,7 @@ func (r *Root) tokenRevokeCmd() *cobra.Command {
 		Use:   "revoke <id>",
 		Short: "Revoke an API token by id",
 		Args:  cobra.ExactArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			client, err := r.client()
 			if err != nil {
 				return err

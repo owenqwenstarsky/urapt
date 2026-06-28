@@ -19,8 +19,6 @@ type IndexCache struct {
 
 type entry struct {
 	indices *apt.Indices
-	suite   *apt.Suite
-	gen     int64
 	dirty   bool
 }
 

@@ -164,7 +164,9 @@ func readAR(r io.Reader) ([]arMember, error) {
 		name = strings.TrimSuffix(name, "/")
 		sizeStr := strings.TrimSpace(string(header[48:58]))
 		var size int64
-		fmt.Sscanf(sizeStr, "%d", &size)
+		if _, err := fmt.Sscanf(sizeStr, "%d", &size); err != nil {
+			return nil, fmt.Errorf("parse ar member size %q: %w", sizeStr, err)
+		}
 		if size < 0 {
 			return nil, fmt.Errorf("negative ar member size")
 		}

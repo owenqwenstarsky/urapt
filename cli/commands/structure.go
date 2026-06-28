@@ -22,7 +22,7 @@ func (r *Root) distroCreateCmd() *cobra.Command {
 		Use:   "create <repo> <distro>",
 		Short: "Add a distribution to a repository",
 		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -46,7 +46,7 @@ func (r *Root) distroListCmd() *cobra.Command {
 		Use:   "list <repo>",
 		Short: "List distributions in a repository",
 		Args:  cobra.ExactArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -72,7 +72,7 @@ func (r *Root) distroDeleteCmd() *cobra.Command {
 		Use:   "delete <repo> <distro>",
 		Short: "Delete a distribution and its packages",
 		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -100,7 +100,7 @@ func (r *Root) componentCreateCmd() *cobra.Command {
 		Use:   "create <repo> <distro> <component>",
 		Short: "Add a component to a distribution",
 		Args:  cobra.ExactArgs(3),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -124,7 +124,7 @@ func (r *Root) componentListCmd() *cobra.Command {
 		Use:   "list <repo> <distro>",
 		Short: "List components in a distribution",
 		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -150,7 +150,7 @@ func (r *Root) componentDeleteCmd() *cobra.Command {
 		Use:   "delete <repo> <distro> <component>",
 		Short: "Delete a component",
 		Args:  cobra.ExactArgs(3),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -178,7 +178,7 @@ func (r *Root) archAddCmd() *cobra.Command {
 		Use:   "add <repo> <distro> <arch>",
 		Short: "Add an architecture to a distribution",
 		Args:  cobra.ExactArgs(3),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -202,7 +202,7 @@ func (r *Root) archListCmd() *cobra.Command {
 		Use:   "list <repo> <distro>",
 		Short: "List architectures in a distribution",
 		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -228,7 +228,7 @@ func (r *Root) archRemoveCmd() *cobra.Command {
 		Use:   "remove <repo> <distro> <arch>",
 		Short: "Remove an architecture from a distribution",
 		Args:  cobra.ExactArgs(3),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err

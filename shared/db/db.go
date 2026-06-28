@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	_ "modernc.org/sqlite"
+	_ "modernc.org/sqlite" // register the pure-Go SQLite driver
 )
 
 //go:embed all:migrations

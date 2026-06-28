@@ -18,7 +18,7 @@ func (r *Root) pushCmd() *cobra.Command {
 		Use:   "push <repo> <distro> <component> <file.deb>",
 		Short: "Upload a .deb package to a repository",
 		Args:  cobra.ExactArgs(4),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			repo, dist, component, file := args[0], args[1], args[2], args[3]
 
 			// Local pre-validation for early, clear errors.
@@ -31,9 +31,7 @@ func (r *Root) pushCmd() *cobra.Command {
 			if archOverride != "" {
 				arch = archOverride
 			}
-			if r.flagJSON {
-				// no-op: keep flag accepted
-			} else {
+			if !r.flagJSON {
 				fmt.Printf("Pushing %s_%s_%s (%d bytes)\n", pkgName, ver, arch, inspected.Size)
 			}
 
@@ -66,7 +64,7 @@ func (r *Root) lsCmd() *cobra.Command {
 		Use:   "ls <repo> <distro>",
 		Short: "List packages in a repository/distribution",
 		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -106,7 +104,7 @@ func (r *Root) showCmd() *cobra.Command {
 		Use:   "show <repo> <id|name[@version][:arch]>",
 		Short: "Show package metadata",
 		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -137,7 +135,7 @@ func (r *Root) pullCmd() *cobra.Command {
 		Use:   "pull <repo> <id|name[@version][:arch]>",
 		Short: "Download a package's .deb file",
 		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -174,7 +172,7 @@ func (r *Root) rmCmd() *cobra.Command {
 		Use:   "rm <repo> <id|name[@version][:arch]>",
 		Short: "Delete a package",
 		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err

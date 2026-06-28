@@ -190,13 +190,13 @@ func (c *Config) Validate() error {
 	return nil
 }
 
-func set(c *Config, env string, dst *string) {
+func set(_ *Config, env string, dst *string) {
 	if v, ok := os.LookupEnv(env); ok && v != "" {
 		*dst = v
 	}
 }
 
-func setInt(c *Config, env string, dst *int) {
+func setInt(_ *Config, env string, dst *int) {
 	if v, ok := os.LookupEnv(env); ok && v != "" {
 		if n, err := strconv.Atoi(v); err == nil {
 			*dst = n
@@ -204,7 +204,7 @@ func setInt(c *Config, env string, dst *int) {
 	}
 }
 
-func setInt64(c *Config, env string, dst *int64) {
+func setInt64(_ *Config, env string, dst *int64) {
 	if v, ok := os.LookupEnv(env); ok && v != "" {
 		if n, err := strconv.ParseInt(v, 10, 64); err == nil {
 			*dst = n
@@ -212,7 +212,7 @@ func setInt64(c *Config, env string, dst *int64) {
 	}
 }
 
-func setBool(c *Config, env string, dst *bool) {
+func setBool(_ *Config, env string, dst *bool) {
 	if v, ok := os.LookupEnv(env); ok && v != "" {
 		if b, err := strconv.ParseBool(v); err == nil {
 			*dst = b

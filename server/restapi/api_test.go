@@ -136,7 +136,7 @@ func TestRegisterFirstUserIsAdmin(t *testing.T) {
 	h.token = resp.Token
 
 	// /me with token
-	code, body = h.do("GET", "/api/v1/me", h.token, nil)
+	code, _ = h.do("GET", "/api/v1/me", h.token, nil)
 	if code != 200 {
 		t.Fatalf("me status %d", code)
 	}
@@ -199,7 +199,7 @@ func TestLoginAndAuthFlow(t *testing.T) {
 	}
 
 	// create token
-	code, body = h.do("POST", "/api/v1/me/tokens", resp.Token, map[string]string{"name": "laptop"})
+	code, _ = h.do("POST", "/api/v1/me/tokens", resp.Token, map[string]string{"name": "laptop"})
 	if code != 201 {
 		t.Fatalf("create token status %d", code)
 	}
@@ -241,7 +241,7 @@ func TestUsersAdminOnly(t *testing.T) {
 		t.Fatalf("non-admin list users should be 403, got %d", code)
 	}
 	// admin can list users
-	code, body = h.do("GET", "/api/v1/users", admin.Token, nil)
+	code, _ = h.do("GET", "/api/v1/users", admin.Token, nil)
 	if code != 200 {
 		t.Fatalf("admin list users should be 200, got %d", code)
 	}

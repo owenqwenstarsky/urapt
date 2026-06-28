@@ -16,7 +16,7 @@ func (r *Root) aptConfigCmd() *cobra.Command {
 		Use:   "apt-config <repo> <distro>",
 		Short: "Print apt client configuration (sources.list, key, and auth) for a repository",
 		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			repoName, dist := args[0], args[1]
 			c, err := r.client()
 			if err != nil {

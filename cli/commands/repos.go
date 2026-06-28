@@ -33,7 +33,7 @@ func (r *Root) repoCreateCmd() *cobra.Command {
 		Use:   "create <name>",
 		Short: "Create a new repository",
 		Args:  cobra.ExactArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			vis := visibility
 			if public {
 				vis = "public"
@@ -70,7 +70,7 @@ func (r *Root) repoListCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "list",
 		Short: "List repositories visible to you",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -101,7 +101,7 @@ func (r *Root) repoInfoCmd() *cobra.Command {
 		Use:   "info <name>",
 		Short: "Show details of a repository",
 		Args:  cobra.ExactArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -129,7 +129,7 @@ func (r *Root) repoSetVisibilityCmd() *cobra.Command {
 		Use:   "set-visibility <name>",
 		Short: "Change a repository's visibility",
 		Args:  cobra.ExactArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			vis := ""
 			if public {
 				vis = "public"
@@ -165,7 +165,7 @@ func (r *Root) repoDeleteCmd() *cobra.Command {
 		Use:   "delete <name>",
 		Short: "Delete a repository and all its packages",
 		Args:  cobra.ExactArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -185,7 +185,7 @@ func (r *Root) repoPubkeyCmd() *cobra.Command {
 		Use:   "pubkey <name>",
 		Short: "Print the server's armored public key for a repository",
 		Args:  cobra.ExactArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -224,7 +224,7 @@ func (r *Root) repoMembersListCmd() *cobra.Command {
 		Use:   "list <repo>",
 		Short: "List members of a repository",
 		Args:  cobra.ExactArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -252,7 +252,7 @@ func (r *Root) repoMembersAddCmd() *cobra.Command {
 		Use:   "add <repo> <username>",
 		Short: "Grant a user access to a repository",
 		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -279,7 +279,7 @@ func (r *Root) repoMembersUpdateCmd() *cobra.Command {
 		Use:   "update <repo> <username>",
 		Short: "Change a member's access level",
 		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err
@@ -305,7 +305,7 @@ func (r *Root) repoMembersRemoveCmd() *cobra.Command {
 		Use:   "remove <repo> <username>",
 		Short: "Revoke a user's access to a repository",
 		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, args []string) error {
 			c, err := r.client()
 			if err != nil {
 				return err

@@ -136,11 +136,11 @@ func TestListPackages_FiltersAndPagination(t *testing.T) {
 	}
 
 	// Filter by arch (matches arch OR 'all').
-	list, total, _ = s.ListPackages(ctx, repo.ID, d.ID, PackageFilters{Arch: "amd64"}, 1, 100)
+	_, total, _ = s.ListPackages(ctx, repo.ID, d.ID, PackageFilters{Arch: "amd64"}, 1, 100)
 	if total != 3 { // alpha, beta, delta
 		t.Fatalf("amd64 filter: expected 3, got %d", total)
 	}
-	list, total, _ = s.ListPackages(ctx, repo.ID, d.ID, PackageFilters{Arch: "arm64"}, 1, 100)
+	_, total, _ = s.ListPackages(ctx, repo.ID, d.ID, PackageFilters{Arch: "arm64"}, 1, 100)
 	if total != 2 { // gamma, epsilon
 		t.Fatalf("arm64 filter: expected 2, got %d", total)
 	}
@@ -152,7 +152,7 @@ func TestListPackages_FiltersAndPagination(t *testing.T) {
 	}
 
 	// Query (LIKE on name/description).
-	list, total, _ = s.ListPackages(ctx, repo.ID, d.ID, PackageFilters{Query: "a test"}, 1, 100)
+	_, total, _ = s.ListPackages(ctx, repo.ID, d.ID, PackageFilters{Query: "a test"}, 1, 100)
 	if total != 5 {
 		t.Fatalf("query filter: expected all 5 to match description, got %d", total)
 	}
@@ -163,7 +163,7 @@ func TestListPackages_FiltersAndPagination(t *testing.T) {
 		t.Fatalf("page 1: total=%d len=%d", total, len(list))
 	}
 	// page 3 -> only 1 item.
-	list, total, _ = s.ListPackages(ctx, repo.ID, d.ID, PackageFilters{}, 3, 2)
+	list, _, _ = s.ListPackages(ctx, repo.ID, d.ID, PackageFilters{}, 3, 2)
 	if len(list) != 1 {
 		t.Fatalf("page 3: expected 1 item, got %d", len(list))
 	}

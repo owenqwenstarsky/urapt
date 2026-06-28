@@ -28,7 +28,7 @@ func (api *API) ServerInfo(w http.ResponseWriter, r *http.Request) {
 }
 
 // ServerPubkey returns the ASCII-armored default signing key.
-func (api *API) ServerPubkey(w http.ResponseWriter, r *http.Request) {
+func (api *API) ServerPubkey(w http.ResponseWriter, _ *http.Request) {
 	if api.Signer == nil {
 		httputil.WriteError(w, http.StatusServiceUnavailable, httputil.CodeInternal, "no signing key configured")
 		return
