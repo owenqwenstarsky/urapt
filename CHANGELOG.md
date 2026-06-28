@@ -58,5 +58,5 @@ companion CLI for pushing and managing Debian `.deb` packages.
 - No rate limiting or brute-force protection on login endpoints.
 - No source packages (`.dsc`/`.orig.tar.*`) or AppStream metadata.
 
-[Unreleased]: https://github.com/owen/urapt/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/owen/urapt/releases/tag/v0.1.0
+[Unreleased]: https://github.com/owenqwenstarsky/urapt/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/owenqwenstarsky/urapt/releases/tag/v0.1.0
