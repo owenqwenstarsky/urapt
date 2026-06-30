@@ -1,0 +1,24 @@
+{
+	auto_https off
+}
+
+:{$PORT} {
+	root * /srv
+
+	handle /api/* {
+		reverse_proxy {$URAPT_SERVER_URL} {
+			header_up Host {upstream_hostport}
+		}
+	}
+
+	handle /apt/* {
+		reverse_proxy {$URAPT_SERVER_URL} {
+			header_up Host {upstream_hostport}
+		}
+	}
+
+	handle {
+		try_files {path} /index.html
+		file_server
+	}
+}

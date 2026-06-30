@@ -65,6 +65,21 @@ and `/apt` to `urapt-server`. No CORS, no server changes — the API base is jus
 pnpm build    # outputs dist/
 ```
 
+### Railway
+
+`urapt-web/` includes a Dockerfile for deploying the UI as a separate Railway
+service. The container builds the Vite app and serves it with Caddy, proxying
+`/api/*` and `/apt/*` to an existing `urapt-server` service.
+
+In Railway, create a new service from this repo with:
+
+- Root Directory: `urapt-web`
+- Environment variable: `URAPT_SERVER_URL=https://your-urapt-server.up.railway.app`
+
+Do not set `VITE_API_BASE_URL` for this deployment; the UI should keep using the
+default same-origin `/api/v1` path.
+
+
 ### Caddy
 
 ```caddy
