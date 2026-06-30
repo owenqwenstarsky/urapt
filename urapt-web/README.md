@@ -76,6 +76,8 @@ In Railway, create a new service from this repo with:
 - Root Directory: `urapt-web`
 - Environment variable: `URAPT_SERVER_URL=https://your-urapt-server.up.railway.app`
 
+A trailing slash is okay; the container normalizes it before starting Caddy.
+
 Do not set `VITE_API_BASE_URL` for this deployment; the UI should keep using the
 default same-origin `/api/v1` path.
 

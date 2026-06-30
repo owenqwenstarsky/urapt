@@ -6,13 +6,13 @@
 	root * /srv
 
 	handle /api/* {
-		reverse_proxy {$URAPT_SERVER_URL} {
+		reverse_proxy {$URAPT_UPSTREAM} {
 			header_up Host {upstream_hostport}
 		}
 	}
 
 	handle /apt/* {
-		reverse_proxy {$URAPT_SERVER_URL} {
+		reverse_proxy {$URAPT_UPSTREAM} {
 			header_up Host {upstream_hostport}
 		}
 	}
